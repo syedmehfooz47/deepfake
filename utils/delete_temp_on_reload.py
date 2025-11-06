@@ -2,7 +2,7 @@ import os
 import shutil
 
 # Define the path to the temp folder
-TEMP_FOLDER = '/temp'
+TEMP_FOLDER = './temp'
 
 # Function to delete the contents of the temp folder
 def clear_temp_folder_and_reload():

@@ -15,9 +15,12 @@ def clean():
 
     # Remove result.txt files in the models directory
     models_dir = './models'
-    for model in os.listdir(models_dir):
-        result_file = os.path.join(models_dir, f"{model}result.txt")
-        if os.path.exists(result_file):
-            os.remove(result_file)
+    if os.path.exists(models_dir):
+        for model in os.listdir(models_dir):
+            model_path = os.path.join(models_dir, model)
+            if os.path.isdir(model_path):
+                result_file = os.path.join(model_path, "result.txt")
+                if os.path.exists(result_file):
+                    os.remove(result_file)
 
 clean()

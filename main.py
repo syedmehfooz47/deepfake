@@ -10,9 +10,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # importing the necessary packages
-from audioop import add
 from datetime import datetime
-from distutils.util import rfc822_escape
 import time, random
 import matplotlib.pyplot as plt
 rgb = [[random.random(), random.random(), random.random()]]
@@ -376,24 +374,35 @@ if add_radio == "Detector":
                             model = (model + "_video").lower()
                             start_time_model = time.time()
                             model_name = str("models." + model + ".demo")
-                            with st.spinner('Running the {} detection model...'.format(model[:-6].title())):
-                                # print(model_name)
-                                var = importlib.import_module(model_name)
-                                # print(want_reload_module)
-                                delete_module(model_name)
+                            try:
+                                with st.spinner('Running the {} detection model...'.format(model[:-6].title())):
+                                    # print(model_name)
+                                    var = importlib.import_module(model_name)
+                                    # print(want_reload_module)
+                                    delete_module(model_name)
 
-                            
+                                
 
-                            inference_time_model = round((time.time() - start_time_model), 5)
+                                inference_time_model = round((time.time() - start_time_model), 5)
 
-                            result_location = "models/" + model + "/result.txt"
-                            f = open(result_location, 'r')
-                            variable = f.readline()
-                            variable = round(float(variable), 5)
-                            #st.success(variable)
-                            probab_model = (variable)
-                            model_inference_time_list.append(inference_time_model)
-                            model_inference_probability_list.append(probab_model)
+                                result_location = "models/" + model + "/result.txt"
+                                if not os.path.exists(result_location):
+                                    st.error(f"❌ Model {model[:-6].title()} failed to create result file. Please check terminal for errors.")
+                                    continue
+                                f = open(result_location, 'r')
+                                variable = f.readline()
+                                variable = round(float(variable), 5)
+                                f.close()
+                                #st.success(variable)
+                                probab_model = (variable)
+                                model_inference_time_list.append(inference_time_model)
+                                model_inference_probability_list.append(probab_model)
+                            except Exception as e:
+                                st.error(f"❌ Error running {model[:-6].title()} model: {str(e)}")
+                                print(f"Error in {model}: {e}")
+                                import traceback
+                                traceback.print_exc()
+                                continue
 
                         print(model_option, model_inference_probability_list, model_inference_time_list)
 
@@ -498,24 +507,35 @@ if add_radio == "Detector":
                             model = (model + "_image").lower()
                             start_time_model = time.time()
                             model_name = str("models." + model + ".demo")
-                            with st.spinner('Running the {} detection model...'.format(model[:-6].title())):
-                                # var = importlib.import_module(model_name)
-                                #print(model_name)
-                                var = importlib.import_module(model_name)
-                                #print(want_reload_module)
-                                delete_module(model_name)
-                                
+                            try:
+                                with st.spinner('Running the {} detection model...'.format(model[:-6].title())):
+                                    # var = importlib.import_module(model_name)
+                                    #print(model_name)
+                                    var = importlib.import_module(model_name)
+                                    #print(want_reload_module)
+                                    delete_module(model_name)
+                                    
 
-                            inference_time_model = round((time.time() - start_time_model), 5)
+                                inference_time_model = round((time.time() - start_time_model), 5)
 
-                            result_location = "models/" + model + "/result.txt"
-                            f = open(result_location, 'r')
-                            variable = f.readline()
-                            variable = round(float(variable), 5)
-                            #st.success(variable)
-                            probab_model = (variable)
-                            model_inference_time_list.append(inference_time_model)
-                            model_inference_probability_list.append(probab_model)
+                                result_location = "models/" + model + "/result.txt"
+                                if not os.path.exists(result_location):
+                                    st.error(f"❌ Model {model[:-6].title()} failed to create result file. Please check terminal for errors.")
+                                    continue
+                                f = open(result_location, 'r')
+                                variable = f.readline()
+                                variable = round(float(variable), 5)
+                                f.close()
+                                #st.success(variable)
+                                probab_model = (variable)
+                                model_inference_time_list.append(inference_time_model)
+                                model_inference_probability_list.append(probab_model)
+                            except Exception as e:
+                                st.error(f"❌ Error running {model[:-6].title()} model: {str(e)}")
+                                print(f"Error in {model}: {e}")
+                                import traceback
+                                traceback.print_exc()
+                                continue
 
                         print(model_option, model_inference_probability_list, model_inference_time_list)
 

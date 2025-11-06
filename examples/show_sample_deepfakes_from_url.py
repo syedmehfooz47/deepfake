@@ -31,9 +31,9 @@ def examples():
     if check_video_url_if_youtube(url) == True:
         st.video(url)
     else:
-        st.experimental_rerun()
+        st.rerun()
     if st.button("Next"):
-        st.experimental_rerun()
+        st.rerun()
         # download_video(url)
         # video_file = open('./temp/delete.mp4', 'rb')
         # video_bytes = video_file.read()
